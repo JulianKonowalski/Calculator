@@ -22,7 +22,7 @@ class GUI():
     self.calculator = backend.getCalculator(None)
     self.toDisplay = ""
     self.fraction = False
-    self.operationInput = False
+    self.clearDisplay = False
 
     self.__setupWindow__()
     self.__setupFrame__()
@@ -93,9 +93,9 @@ class GUI():
     self.label.config(text=self.toDisplay)
 
   def __handleNumeric__(self, input: str) -> None:
-    if self.operationInput: 
+    if self.clearDisplay: 
       self.toDisplay = input
-      self.operationInput = False
+      self.clearDisplay = False
     elif self.toDisplay == "0":
       if input == "0": return
       else: self.toDisplay = input
@@ -104,7 +104,11 @@ class GUI():
     self.backend.updateNumber(self.calculator, int(input))
 
   def __handleComma__(self) -> None:
-    if not self.fraction: self.toDisplay += ',' #if the number is already a fraction, don't add the comma
+    if self.clearDisplay:
+      self.clearDisplay = False
+      self.toDisplay = ""
+
+    if not self.fraction: self.toDisplay += '.' #if the number is already a fraction, don't add the comma
     self.fraction = True
     
     if self.toDisplay == "" or not self.toDisplay[0].isnumeric():
@@ -114,10 +118,11 @@ class GUI():
 
   def __handleEqual__(self) -> None:
     self.toDisplay = str(self.backend.calculate(self.calculator))
-  
+    self.clearDisplay = True
+
   def __handleOperation__(self, input: str) -> None:
     self.toDisplay = input
     self.fraction = False
-    self.operationInput = True
+    self.clearDisplay = True
     
     self.backend.setOperation(self.calculator, ord(input[0]))

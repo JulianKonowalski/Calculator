@@ -1,5 +1,3 @@
-#include <iostream>
-
 class Calculator {
 public:
   Calculator() = default;
@@ -28,6 +26,12 @@ private:
 };
 
 void Calculator::updateNumber(const int& input) {
+  if(!mOperation && !mNum1Input) { 
+    mNum1Input = true;
+    delete mNum1;
+    mNum1 = nullptr;
+  }
+
   if (mNum1Input) {
     if(mIsFraction) { this->handleFraction(mNum1, input); }
     else { this->handleInt(mNum1, input); }
