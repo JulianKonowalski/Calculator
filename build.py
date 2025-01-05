@@ -1,5 +1,4 @@
 import os
-import shutil
 import subprocess
 
 def runCommand(command, directory):
@@ -20,9 +19,13 @@ if __name__ == "__main__":
   )
 
   print("Building calculator.dll")
-  buildCommand = ["g++", "-c", "Calculator.cpp", "CalculatorAPI.cpp"]
-  compileCommand = ["g++", "-static", "-shared", "-o", "Calculator.dll", "Calculator.o", "CalculatorAPI.o"]
-  removeCommand = ["rm" "Calculator.o"]
-  runCommand(buildCommand, execPath)
-  runCommand(compileCommand, execPath)
+  buildDllCommand = ["g++", "-c", "Calculator.cpp", "CalculatorAPI.cpp"]
+  compileDllCommand = ["g++", "-static", "-shared", "-o", "Calculator.dll", "Calculator.o", "CalculatorAPI.o"]
+  runCommand(buildDllCommand, execPath)
+  runCommand(compileDllCommand, execPath)
+
+  print("Generating executable")
+  buildExeCommand = ["pyinstaller", "--onefile", "--add-binary", "src/components/calculator/Calculator.dll;.", "--add-data", "src/components/GUI/layout.json;.", "src/main.py"]
+  runCommand(buildExeCommand, os.path.dirname(os.path.abspath(__file__)))
+
   print("Build finished successfuly")

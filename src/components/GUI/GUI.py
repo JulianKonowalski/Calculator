@@ -3,6 +3,7 @@ from tkinter import ttk
 from functools import partial
 
 import os
+import sys
 import json
 import ctypes
 
@@ -10,10 +11,15 @@ NUM_ROW = 5
 NUM_COL = 4
 WINDOW_TITLE = "Calculator"
 WINDOW_SIZE = "500x500"
-LAYOUT_PATH = os.path.join(
-  os.path.dirname(os.path.abspath(__file__)), 
-  "layout.json"
-)
+
+def getResourcePath(relativePath: str) -> str:
+  try:
+    basePath = sys._MEIPASS
+  except AttributeError:
+    basePath = os.path.abspath('.')
+  return os.path.join(basePath, relativePath)
+
+LAYOUT_PATH = getResourcePath("layout.json")
 
 class GUI():
 
