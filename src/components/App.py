@@ -12,12 +12,12 @@ DLL_PATH = os.path.join(
 class App:
 
   def __init__(self):
-    self.gui = GUI(self.__setupBackend())
+    self.gui = GUI(self.__setupBackend__())
 
   def run(self):
     self.gui.run()
 
-  def __setupBackend(self) -> ctypes.CDLL:
+  def __setupBackend__(self) -> ctypes.CDLL:
     backend = cdll.LoadLibrary(DLL_PATH)
 
     backend.getCalculator.argtypes = [ctypes.c_void_p]
