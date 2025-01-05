@@ -1,29 +1,4 @@
-class Calculator {
-public:
-  Calculator() = default;
-  ~Calculator() { 
-    delete mOperation;
-    delete mNum1; 
-    delete mNum2; 
-  }
-
-  void updateNumber(const int& input);
-  void setOperation(const char& operation);
-  void setFraction(const bool& flag) { mIsFraction = flag; }
-  double calculate(void);
-
-private:
-
-  void handleInt(double*& number, const int& input);
-  void handleFraction(double*& number, const int& input);
-
-  char* mOperation = nullptr;
-  double* mNum1 = nullptr;
-  double* mNum2 = nullptr;
-  double mFractionPower = 0.1;
-  bool mIsFraction = false;
-  bool mNum1Input = true;
-};
+#include "Calculator.h"
 
 void Calculator::updateNumber(const int& input) {
   if(!mOperation && !mNum1Input) { 
@@ -96,19 +71,3 @@ void Calculator::handleFraction(double*& number, const int& input) {
   *number += input * mFractionPower;
   mFractionPower *= 0.1;
 }
-
-extern "C" { //API FOR PYTHON
-
-Calculator* getCalculator();
-void updateNumber(Calculator* c, int input); 
-void setOperation(Calculator* c, char operation);
-void setFraction(Calculator* c, bool flag);
-double calculate(Calculator* c);
-
-}
-
-Calculator* getCalculator() { return new Calculator(); }
-void updateNumber(Calculator* c, int input) { c->updateNumber(input);}
-void setOperation(Calculator* c, char operation) { c->setOperation(operation); }
-void setFraction(Calculator* c, bool flag) { c->setFraction(flag); }
-double calculate(Calculator* c) { return c->calculate(); }

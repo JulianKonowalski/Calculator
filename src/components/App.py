@@ -6,7 +6,7 @@ from components.GUI.GUI import GUI
 
 DLL_PATH = os.path.join(
   os.path.dirname(os.path.abspath(__file__)),
-  "backend/Calculator.dll"
+  "calculator/Calculator.dll"
 )
 
 class App:
